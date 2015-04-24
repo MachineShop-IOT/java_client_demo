@@ -16,6 +16,7 @@ import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.api.ContentResponse;
 import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.client.util.StringContentProvider;
+import org.eclipse.jetty.http.HttpMethod;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 /**
  *
@@ -40,7 +41,7 @@ public class MsApi {
             StringContentProvider strProvider = new StringContentProvider(payload);
 
             Request request = httpClient.newRequest(url)
-                         .method(method)
+                         .method(HttpMethod.fromString(method))
                          .content(strProvider, "application/json");
 
             if (this.headers() != null) {
