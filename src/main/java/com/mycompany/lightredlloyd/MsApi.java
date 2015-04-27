@@ -7,6 +7,7 @@ package com.mycompany.lightredlloyd;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,8 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
  * @author johncox
  */
 public class MsApi {
-    private final String token;
+    private String token;
+    public HashMap user;
     
     public MsApi(String token){
         this.token = token;
@@ -57,6 +59,11 @@ public class MsApi {
             Logger.getLogger(MsApi.class.getName()).log(Level.SEVERE, null, ex);
             return new HashMap();
         }
+    }
+    
+    public String mapToJson(Map hash){
+        Gson gson = new Gson();
+        return gson.toJson(hash);
     }
     
     private Map<String, String> headers(){

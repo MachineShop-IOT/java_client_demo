@@ -1,9 +1,8 @@
 <html>
     <head></head>
     <body>
-        <h1>Hi!</h1>
+        <h1>Please sign in.</h1>
         <br/>
-        ${message}
         <form action="/auth" method="POST">
             Email
             <br/>
