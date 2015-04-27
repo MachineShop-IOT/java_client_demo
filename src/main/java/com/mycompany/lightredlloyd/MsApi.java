@@ -32,7 +32,7 @@ public class MsApi {
         this.token = token;
     }
     
-    public HashMap<String, Object> makeCall(String payload, String method, String url){
+    public Map<String, Object> makeCall(String payload, String method, String url){
         
         try {
             SslContextFactory sslContextFactory = new SslContextFactory(true);
@@ -55,7 +55,7 @@ public class MsApi {
 
             System.out.println(r.getContentAsString());
             String res = r.getContentAsString();
-            HashMap<String,Object> result = this.jsonToMap(r.getContentAsString());
+            Map<String,Object> result = this.jsonToMap(r.getContentAsString());
             return result;
         } catch (Exception ex) {
             Logger.getLogger(MsApi.class.getName()).log(Level.SEVERE, null, ex);
@@ -68,7 +68,7 @@ public class MsApi {
         return gson.toJson(hash);
     }
     
-    public HashMap<String, Object> jsonToMap(String json) {
+    public Map<String, Object> jsonToMap(String json) {
         Type type = new TypeToken<Map<String, Object>>(){}.getType();
         Gson gson = new Gson();
         return gson.fromJson(json, type);
