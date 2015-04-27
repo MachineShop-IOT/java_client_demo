@@ -8,6 +8,8 @@ package com.mycompany.lightredlloyd;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,8 +26,7 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
  * @author johncox
  */
 public class MsApi {
-    private String token;
-    public HashMap user;
+    public String token;
     
     public MsApi(String token){
         this.token = token;
@@ -53,7 +54,8 @@ public class MsApi {
             ContentResponse r = request.send();
 
             System.out.println(r.getContentAsString());
-            HashMap<String,Object> result = new ObjectMapper().readValue(r.getContentAsString(), HashMap.class);
+            String res = r.getContentAsString();
+            HashMap<String,Object> result = this.jsonToMap(r.getContentAsString());
             return result;
         } catch (Exception ex) {
             Logger.getLogger(MsApi.class.getName()).log(Level.SEVERE, null, ex);
@@ -66,11 +68,18 @@ public class MsApi {
         return gson.toJson(hash);
     }
     
+    public HashMap<String, Object> jsonToMap(String json) {
+        Type type = new TypeToken<Map<String, Object>>(){}.getType();
+        Gson gson = new Gson();
+        return gson.fromJson(json, type);
+    }
+        
+    
     private Map<String, String> headers(){
         Map<String, String> ret = new HashMap<String, String>();
         ret.put("Content-Type", "application/json");
         ret.put("Accept", "application/json");
-        if(this.token != null){
+        if(this.token != null || this.token != ""){
             ret.put("Authorization",this.authHeader());
         }
         return ret;
